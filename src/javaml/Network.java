@@ -13,6 +13,7 @@ public class Network {
     }
 
     public double learning_rate = 0.0001;
+    public double delta = 0.0001;
     private LinkedList<Layer> layers;
     private LinkedList<Matrix2D> weights;
     private double oldError = Double.MAX_VALUE;
@@ -64,7 +65,7 @@ public class Network {
             backPropagate(dataset, error_protocol);
             if (i % 10 == 0) {
                 double newError = evaluate(dataset, error_protocol);
-                if (newError > oldError && i >= 5000) {
+                if (newError <= delta) {
                     iterations = i;
                     break;
                 }

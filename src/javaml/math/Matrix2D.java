@@ -2,11 +2,13 @@ package javaml.math;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Matrix2D {
 
     private int m, n;
     private double[] values;
+    public static Random random = new Random();
 
     public Matrix2D() {
         this.m = 0;
@@ -79,7 +81,7 @@ public class Matrix2D {
             return null;
         }
         for (int i = 0; i < ret.values.length; i++) {
-            ret.set(i, Math.random() * (max - min) + min);
+            ret.set(i, random.nextDouble() * (max - min) + min);
         }
         return ret;
     }

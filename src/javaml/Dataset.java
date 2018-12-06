@@ -4,8 +4,10 @@ import javaml.math.Matrix2D;
 import javaml.math.MatrixDimensionException;
 import javaml.math.MatrixIndexOutOfBoundsException;
 
-import java.io.File;
+import java.io.*;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Dataset implements Iterable {
 
@@ -17,9 +19,41 @@ public class Dataset implements Iterable {
     private int numFeatures;
     private int numClasses;
 
-    public Dataset(File src, Format format) {
+    public Dataset(File src, Format format, int numFeatures, int numClasses) {
+        this.numFeatures = numFeatures;
+        this.numClasses = numClasses;
         if (format == Format.CSV) {
-            //TODO: READ A CSV FILE OF DATA
+            LinkedList<Matrix2D> rows = new LinkedList<Matrix2D>();
+            try (
+                    FileReader fr = new FileReader(src);
+                    BufferedReader br = new BufferedReader(fr);
+            ) {
+                for (String line = br.readLine(); line != null; line = br.readLine()) {
+                    String[] entries = line.split(",");
+                    Matrix2D curRow = Matrix2D.zeros(1, entries.length);
+                    for (int i = 0; i < entries.length; i++) {
+                        try {
+                            curRow.set(0, i, Double.parseDouble(entries[i]));
+                        } catch (MatrixIndexOutOfBoundsException mioobe) {
+                            mioobe.printStackTrace();
+                            return;
+                        }
+                    }
+                    rows.add(curRow);
+                }
+            } catch (FileNotFoundException fnfe) {
+                System.err.printf("File not found : %s", src);
+                return;
+            } catch (IOException ioe) {
+                System.err.printf("IOException thrown when reading file : %s", src);
+            }
+            try {
+                data = new Matrix2D(rows);
+            } catch (MatrixDimensionException mde) {
+                data = null;
+                mde.printStackTrace();
+                return;
+            }
         }
     }
 
