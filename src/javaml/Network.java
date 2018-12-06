@@ -13,7 +13,7 @@ public class Network {
     }
 
     public double learning_rate = 0.0001;
-    public double delta = 0.0001;
+    public static double delta = 0.0001;
     private LinkedList<Layer> layers;
     private LinkedList<Matrix2D> weights;
     private double oldError = Double.MAX_VALUE;
