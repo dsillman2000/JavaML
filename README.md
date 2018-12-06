@@ -86,6 +86,7 @@ There are a few customizable caveats to the above code:
 The backbone of this project is essentially the computerization of the generalized backpropagation equations:
 
 ![equation](https://latex.codecogs.com/svg.latex?%24%24%20N%5Ek%20%5Crightarrow%20%5Cfrac%7B%5Cpartial%20E_%7B%5Cmathrm%7BMSE%7D%7D%7D%7B%5Cpartial%20W_j%7D%20%3D%20%5Csum_%7Bd%5Cin%20D%7D%20%5Cleft%28X%5Cprod_%7Bi%3D1%7D%5E%7Bj%7D%20W_i%5Cright%29%20%5E%5Ctop%20%5Cleft%28Y_d%20-%20%5Chat%20Y_d%5Cright%29%20%5Cprod_%7Bi%3D0%7D%5E%7Bk-j%7DW_%7Bk-i%7D%5E%5Ctop%20%24%24)
+
 ![equation](https://latex.codecogs.com/svg.latex?%24%24%20%5Crightarrow%20W%27_j%20%3D%20W_j%20-%20%5Cgamma%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20W_j%7D%20%24%24)
 
 Which are written more or less explicitly in `Network.java`'s code. When I add support for activation functions and various loss models, this will be complicated and this section will change. Currently, however, this is the extent of the math required to optimize basic MLPs.
