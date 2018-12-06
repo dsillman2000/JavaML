@@ -1,3 +1,4 @@
+
 # JavaML
 Basic object-oriented java implementation of neural network optimization.
 ## Overview
@@ -13,21 +14,22 @@ At the moment, the user *needs* only to interface with three classes to optimize
 
 ### Matrix2D
 The `Matrix2D` class is exactly what it sounds like: an object that stores a two-dimensional matrix. Memory-wise, it stores the matrix in a one-dimensional array of doubles.  The following static methods can be used to instantiate matrices:
+
 |Method  | Description |
 |--|--|
-| `Matrix2D.zeros(int m, int n)` | Returns a matrix $M\in\mathbb{R}^{m\times n}$ wherein every entry is $0$.|
-|`Matrix2D.ones(int m, int n)`|Returns a matrix $M\in\mathbb{R}^{m\times n}$ wherein every entry is $1$.|
-|`Matrix2D.rand(int m, int n, double min, double max)`|Returns a matrix $M\in\mathbb{R}^{m\times n}$ wherein every entry is a random value, $M_{ij} \in \left(\mathrm{min, max}\right)$|
+| `Matrix2D.zeros(int m, int n)` | Returns a matrix ![equation](https://latex.codecogs.com/svg.latex?M%5Cin%5Cmathbb%7BR%7D%5E%7Bm%5Ctimes%20n%7D) wherein every entry is 0.|
+|`Matrix2D.ones(int m, int n)`|Returns a matrix ![equation](https://latex.codecogs.com/svg.latex?M%5Cin%5Cmathbb%7BR%7D%5E%7Bm%5Ctimes%20n%7D) wherein every entry is $1$.|
+|`Matrix2D.rand(int m, int n, double min, double max)`|Returns a matrix ![equation](https://latex.codecogs.com/svg.latex?M%5Cin%5Cmathbb%7BR%7D%5E%7Bm%5Ctimes%20n%7D)wherein every entry is a random value, ![equation](https://latex.codecogs.com/svg.latex?M_%7Bij%7D%20%5Cin%20%5Cleft%28%5Cmathrm%7Bmin%2C%20max%7D%5Cright%29)|
 
 The following elementary operations can be done with matrices using the following methods:
 
 |Operation| Code |
 |--|--|
-| $A+B$ | `A.add(B)` |
-|$A-B$|`A.sub(B)`|
-|$AB$|`A.mult(B)`|
-|$17.2A$|`A.mult(17.2)`|
-|$A\bigodot B$*|`A.hadamard(B)`|
+| ![equation](https://latex.codecogs.com/svg.latex?A%20&plus;%20B) | `A.add(B)` |
+|![equation](https://latex.codecogs.com/svg.latex?A%20-%20B)|`A.sub(B)`|
+|![equation](https://latex.codecogs.com/svg.latex?AB)|`A.mult(B)`|
+|![equation](https://latex.codecogs.com/svg.latex?17.2A)|`A.mult(17.2)`|
+|![equation](https://latex.codecogs.com/svg.latex?A%5Codot%20B)*|`A.hadamard(B)`|
 <sub>*The Hadamard product is element-wise multiplication</sub>
 
 ### Dataset
@@ -78,16 +80,12 @@ There are a few customizable caveats to the above code:
  * If we want to see the error at every 10 iterations of backpropagation, we simply set the final argument of `fit` to `true`, putting the Network into "verbose mode."
  * There are not yet any other supported loss models apart from MSE (Mean-Squared Error), but in the future one could change that argument to another model.
  * If we want to backpropagate indefinitely until `0.0001` error or less is achieved, we may set the third argument(`iterations`) to `-1`.
-	* What if we want to achieve an error other than `0.0001`, such as `0.1`? We simply set the network's $\delta$-value to that value by calling `n.delta = 0.1;` before fitting.
+   * What if we want to achieve an error other than `0.0001`, such as `0.1`? We simply set the network's ![equation](https://latex.codecogs.com/svg.latex?%5Cdelta)-value to that value by calling `n.delta = 0.1;` before fitting.
 
 ## Appendix : Theory
 The backbone of this project is essentially the computerization of the generalized backpropagation equations:
 
-$$
-N^k \rightarrow \frac{\partial E_{\mathrm{MSE}}}{\partial W_j} = \sum_{d\in D} \left(X\prod_{i=1}^{j} W_i\right) ^\top \left(Y_d - \hat Y_d\right) \prod_{i=0}^{k-j}W_{k-i}^\top
-$$
-$$
-\rightarrow W'_j = W_j - \gamma\frac{\partial E}{\partial W_j}
-$$
+![equation](https://latex.codecogs.com/svg.latex?%24%24%20N%5Ek%20%5Crightarrow%20%5Cfrac%7B%5Cpartial%20E_%7B%5Cmathrm%7BMSE%7D%7D%7D%7B%5Cpartial%20W_j%7D%20%3D%20%5Csum_%7Bd%5Cin%20D%7D%20%5Cleft%28X%5Cprod_%7Bi%3D1%7D%5E%7Bj%7D%20W_i%5Cright%29%20%5E%5Ctop%20%5Cleft%28Y_d%20-%20%5Chat%20Y_d%5Cright%29%20%5Cprod_%7Bi%3D0%7D%5E%7Bk-j%7DW_%7Bk-i%7D%5E%5Ctop%20%24%24)
+![equation](https://latex.codecogs.com/svg.latex?%24%24%20%5Crightarrow%20W%27_j%20%3D%20W_j%20-%20%5Cgamma%5Cfrac%7B%5Cpartial%20E%7D%7B%5Cpartial%20W_j%7D%20%24%24)
 
 Which are written more or less explicitly in `Network.java`'s code. When I add support for activation functions and various loss models, this will be complicated and this section will change. Currently, however, this is the extent of the math required to optimize basic MLPs.
